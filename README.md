@@ -12,29 +12,29 @@ This is the official repository for the paper: Human Preference Score v2: A Soli
 **Human Preference Score v2 (HPS v2)**: a preference prediction model trained on HPD v2. HPS v2 exhibits better correlation with human preferences against existing models. We also provide a fair, stable and easy-to-use set of evaluation prompts for text-to-image generative models.
 
 ## The HPS v2 benchmark
-The HPS v2 benchmark tracks a model's capability of generating images of 4 styles: *Animation*, *Concept-art*, *Painting*, and *Photo*. We also provide HPS v2 evaluated on prompts from [DrawBench](https://imagen.research.google/) for reference. 
-| Model                 | Animation | Concept-art | Painting | Photo    | Averaged || DrawBench |
-| ---------------------| --------- | ----------- | -------- | -------- | -------- |-| --------- |
-| GLIDE                 | 0.2334    | 0.2308      | 0.2327   | 0.2450   | 0.2355 || 0.2505    |
-| LAFITE                | 0.2463    | 0.2438      | 0.2443   | 0.2581   | 0.2481 || 0.2523    |
-| VQ-Diffusion          | 0.2497    | 0.2470      | 0.2501   | 0.2571   | 0.2510 || 0.2544    |
-| FuseDream             | 0.2526    | 0.2515      | 0.2513   | 0.2557   | 0.2528 || 0.2572    |
-| Latent Diffusion      | 0.2573    | 0.2515      | 0.2525   | 0.2697   | 0.2578 || 0.2617    |
-| CogView2              | 0.2650    | 0.2659      | 0.2633   | 0.2644   | 0.2647 || 0.2617    |
-| DALL·E mini           | 0.2610    | 0.2556      | 0.2556   | 0.2612   | 0.2583 || 0.2634    |
-| Versatile Diffusion   | 0.2659    | 0.2628      | 0.2643   | 0.2705   | 0.2659 || 0.2677    |
-| VQGAN + CLIP          | 0.2644    | 0.2653      | 0.2647   | 0.2612   | 0.2639 || 0.2638    |
-| DALL·E 2              | 0.2734    | 0.2654      | 0.2668   | 0.2724   | 0.2695 || 0.2716    |
-| Stable Diffusion v1.4 | 0.2726    | 0.2661      | 0.2666   | 0.2727   | 0.2695 || 0.2723    |
-| Stable Diffusion v2.0 | 0.2748    | 0.2689      | 0.2686   | 0.2746   | 0.2717 || 0.2731    |
-| Epic Diffusion        | 0.2757    | 0.2696      | 0.2703   | 0.2749   | 0.2726 || 0.2733    |
-| Openjourney           | 0.2785    | 0.2718      | 0.2725   | 0.2753   | 0.2745 || 0.2744    |
-| MajicMix Realistic    | 0.2788    | 0.2719      | 0.2722   | 0.2764   | 0.2748 || 0.2747    |
-| ChilloutMix           | 0.2792    | 0.2729      | 0.2732   | 0.2761   | 0.2754 || 0.2747    |
-| DeepFloyd-XL          | 0.2764    | 0.2683      | 0.2686   | 0.2775   | 0.2727 || 0.2764    |
-| Deliberate            | 0.2813    | 0.2746      | 0.2745   | 0.2762   | 0.2767 || 0.2773    |
-| Realistic Vision      | 0.2822    | 0.2753      | 0.2756   | 0.2775   | 0.2777 || 0.2777    |
-| Dreamlike Photoreal 2.0 | 0.2824  | 0.2760      | 0.2759   | 0.2799   | 0.2786 || 0.2788    |
+The HPS v2 benchmark tracks a model's capability of generating images of 4 styles: *Animation*, *Concept-art*, *Painting*, and *Photo*. 
+| Model                 | Animation | Concept-art | Painting | Photo    | Averaged |
+| ---------------------| --------- | ----------- | -------- | -------- | -------- |
+| GLIDE                 | 0.2334    | 0.2308      | 0.2327   | 0.2450   | 0.2355 |
+| LAFITE                | 0.2463    | 0.2438      | 0.2443   | 0.2581   | 0.2481 |
+| VQ-Diffusion          | 0.2497    | 0.2470      | 0.2501   | 0.2571   | 0.2510 |
+| FuseDream             | 0.2526    | 0.2515      | 0.2513   | 0.2557   | 0.2528 |
+| Latent Diffusion      | 0.2573    | 0.2515      | 0.2525   | 0.2697   | 0.2578 |
+| CogView2              | 0.2650    | 0.2659      | 0.2633   | 0.2644   | 0.2647 |
+| DALL·E mini           | 0.2610    | 0.2556      | 0.2556   | 0.2612   | 0.2583 |
+| Versatile Diffusion   | 0.2659    | 0.2628      | 0.2643   | 0.2705   | 0.2659 |
+| VQGAN + CLIP          | 0.2644    | 0.2653      | 0.2647   | 0.2612   | 0.2639 |
+| DALL·E 2              | 0.2734    | 0.2654      | 0.2668   | 0.2724   | 0.2695 |
+| Stable Diffusion v1.4 | 0.2726    | 0.2661      | 0.2666   | 0.2727   | 0.2695 |
+| Stable Diffusion v2.0 | 0.2748    | 0.2689      | 0.2686   | 0.2746   | 0.2717 |
+| Epic Diffusion        | 0.2757    | 0.2696      | 0.2703   | 0.2749   | 0.2726 |
+| Openjourney           | 0.2785    | 0.2718      | 0.2725   | 0.2753   | 0.2745 |
+| MajicMix Realistic    | 0.2788    | 0.2719      | 0.2722   | 0.2764   | 0.2748 |
+| ChilloutMix           | 0.2792    | 0.2729      | 0.2732   | 0.2761   | 0.2754 |
+| DeepFloyd-XL          | 0.2764    | 0.2683      | 0.2686   | 0.2775   | 0.2727 |
+| Deliberate            | 0.2813    | 0.2746      | 0.2745   | 0.2762   | 0.2767 |
+| Realistic Vision      | 0.2822    | 0.2753      | 0.2756   | 0.2775   | 0.2777 |
+| Dreamlike Photoreal 2.0 | 0.2824  | 0.2760      | 0.2759   | 0.2799   | 0.2786 |
 
 ### Reproduce
 We provide images used for setting up the benchmark, and a script to reproduce it. Please see [Evaluation](#evaluation) for details.
@@ -142,7 +142,7 @@ python evaluate.py --data-type ImageReward --data-path /path/to/IR --image-path 
 ```
 
 ### Evaluating text-to-image generative models using HPS v2
-The following script reproduces the [benchmark table](#the-hps-v2-benchmark):
+The following script reproduces the [benchmark table](#the-hps-v2-benchmark) and our results on DrawBench (reported in the paper):
 ```shell
 # HPS v2 benchmark
 python evaluate.py --data-type benchmark --data-path /path/to/HPD/benchmark --image-path /path/to/benchmark_imgs --batch-size 10 --checkpoint /path/to/HPSv2.pt
