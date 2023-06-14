@@ -18,7 +18,7 @@ parser = ArgumentParser()
 parser.add_argument('--data-type', type=str, choices=['benchmark', 'test', 'ImageReward', 'drawbench'])
 parser.add_argument('--data-path', type=str, help='path to dataset')
 parser.add_argument('--image-path', type=str, help='path to image files')
-parser.add_argument('--checkpoint', type=str, default='logs/ranking_only/top_2.pt')
+parser.add_argument('--checkpoint', type=str, help='path to checkpoint')
 parser.add_argument('--batch-size', type=int, default=20)
 args = parser.parse_args()
 
