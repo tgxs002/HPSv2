@@ -15,26 +15,26 @@ This is the official repository for the paper: Human Preference Score v2: A Soli
 The HPS v2 benchmark tracks a model's capability of generating images of 4 styles: *Animation*, *Concept-art*, *Painting*, and *Photo*. 
 | Model                 | Animation | Concept-art | Painting | Photo    | Averaged |
 | ---------------------| --------- | ----------- | -------- | -------- | -------- |
-| GLIDE                 | 0.2334    | 0.2308      | 0.2327   | 0.2450   | 0.2355 |
-| LAFITE                | 0.2463    | 0.2438      | 0.2443   | 0.2581   | 0.2481 |
-| VQ-Diffusion          | 0.2497    | 0.2470      | 0.2501   | 0.2571   | 0.2510 |
-| FuseDream             | 0.2526    | 0.2515      | 0.2513   | 0.2557   | 0.2528 |
-| Latent Diffusion      | 0.2573    | 0.2515      | 0.2525   | 0.2697   | 0.2578 |
-| DALL·E mini           | 0.2610    | 0.2556      | 0.2556   | 0.2612   | 0.2583 |
-| VQGAN + CLIP          | 0.2644    | 0.2653      | 0.2647   | 0.2612   | 0.2639 |
-| CogView2              | 0.2650    | 0.2659      | 0.2633   | 0.2644   | 0.2647 |
-| Versatile Diffusion   | 0.2659    | 0.2628      | 0.2643   | 0.2705   | 0.2659 |
-| DALL·E 2              | 0.2734    | 0.2654      | 0.2668   | 0.2724   | 0.2695 |
-| Stable Diffusion v1.4 | 0.2726    | 0.2661      | 0.2666   | 0.2727   | 0.2695 |
-| Stable Diffusion v2.0 | 0.2748    | 0.2689      | 0.2686   | 0.2746   | 0.2717 |
-| Epic Diffusion        | 0.2757    | 0.2696      | 0.2703   | 0.2749   | 0.2726 |
-| DeepFloyd-XL          | 0.2764    | 0.2683      | 0.2686   | 0.2775   | 0.2727 |
-| Openjourney           | 0.2785    | 0.2718      | 0.2725   | 0.2753   | 0.2745 |
-| MajicMix Realistic    | 0.2788    | 0.2719      | 0.2722   | 0.2764   | 0.2748 |
-| ChilloutMix           | 0.2792    | 0.2729      | 0.2732   | 0.2761   | 0.2754 |
-| Deliberate            | 0.2813    | 0.2746      | 0.2745   | 0.2762   | 0.2767 |
-| Realistic Vision      | 0.2822    | 0.2753      | 0.2756   | 0.2775   | 0.2777 |
 | Dreamlike Photoreal 2.0 | 0.2824  | 0.2760      | 0.2759   | 0.2799   | 0.2786 |
+| Realistic Vision      | 0.2822    | 0.2753      | 0.2756   | 0.2775   | 0.2777 |
+| Deliberate            | 0.2813    | 0.2746      | 0.2745   | 0.2762   | 0.2767 |
+| ChilloutMix           | 0.2792    | 0.2729      | 0.2732   | 0.2761   | 0.2754 |
+| MajicMix Realistic    | 0.2788    | 0.2719      | 0.2722   | 0.2764   | 0.2748 |
+| Openjourney           | 0.2785    | 0.2718      | 0.2725   | 0.2753   | 0.2745 |
+| DeepFloyd-XL          | 0.2764    | 0.2683      | 0.2686   | 0.2775   | 0.2727 |
+| Epic Diffusion        | 0.2757    | 0.2696      | 0.2703   | 0.2749   | 0.2726 |
+| Stable Diffusion v2.0 | 0.2748    | 0.2689      | 0.2686   | 0.2746   | 0.2717 |
+| Stable Diffusion v1.4 | 0.2726    | 0.2661      | 0.2666   | 0.2727   | 0.2695 |
+| DALL·E 2              | 0.2734    | 0.2654      | 0.2668   | 0.2724   | 0.2695 |
+| Versatile Diffusion   | 0.2659    | 0.2628      | 0.2643   | 0.2705   | 0.2659 |
+| CogView2              | 0.2650    | 0.2659      | 0.2633   | 0.2644   | 0.2647 |
+| VQGAN + CLIP          | 0.2644    | 0.2653      | 0.2647   | 0.2612   | 0.2639 |
+| DALL·E mini           | 0.2610    | 0.2556      | 0.2556   | 0.2612   | 0.2583 |
+| Latent Diffusion      | 0.2573    | 0.2515      | 0.2525   | 0.2697   | 0.2578 |
+| FuseDream             | 0.2526    | 0.2515      | 0.2513   | 0.2557   | 0.2528 |
+| VQ-Diffusion          | 0.2497    | 0.2470      | 0.2501   | 0.2571   | 0.2510 |
+| LAFITE                | 0.2463    | 0.2438      | 0.2443   | 0.2581   | 0.2481 |
+| GLIDE                 | 0.2334    | 0.2308      | 0.2327   | 0.2450   | 0.2355 |
 
 ### Reproduce
 We provide images used for setting up the benchmark, and a script to reproduce it. Please see [Evaluation](#evaluation) for details.
