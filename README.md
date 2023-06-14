@@ -1,4 +1,5 @@
 <p align="center"><img src="assets/hps_banner.png"/ width="100%"><br></p>
+
 ## Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis
 
 This is the official repository for the paper: Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis. 
