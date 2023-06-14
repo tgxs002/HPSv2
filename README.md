@@ -13,10 +13,10 @@ This is the official repository for the paper: Human Preference Score v2: A Soli
 
 ## The HPS v2 benchmark
 The HPS v2 benchmark tracks a model's capability of generating images of 4 styles: *Animation*, *Concept-art*, *Painting*, and *Photo*. We also provide HPS v2 evaluated on prompts from [DrawBench](https://imagen.research.google/) for reference. 
-| Model                 | Animation | Concept-art | Painting | Photo    | Averaged | DrawBench |
-| ---------------------| --------- | ----------- | -------- | -------- | -------- | --------- |
-| GLIDE                 | 0.2334    | 0.2308      | 0.2327   | 0.2450   | 0.2355 | 0.2505    |
-| LAFITE                | 0.2463    | 0.2438      | 0.2443   | 0.2581   | 0.2481 | 0.2523    |
+| Model                 | Animation | Concept-art | Painting | Photo    | Averaged || DrawBench |
+| ---------------------| --------- | ----------- | -------- | -------- | -------- || --------- |
+| GLIDE                 | 0.2334    | 0.2308      | 0.2327   | 0.2450   | 0.2355 || 0.2505    |
+| LAFITE                | 0.2463    | 0.2438      | 0.2443   | 0.2581   | 0.2481 || 0.2523    |
 | VQ-Diffusion          | 0.2497    | 0.2470      | 0.2501   | 0.2571   | 0.2510 | 0.2544    |
 | FuseDream             | 0.2526    | 0.2515      | 0.2513   | 0.2557   | 0.2528 | 0.2572    |
 | Latent Diffusion      | 0.2573    | 0.2515      | 0.2525   | 0.2697   | 0.2578 | 0.2617    |
