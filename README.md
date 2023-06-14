@@ -57,7 +57,7 @@ Image sources of HPD v2:
 | FuseDream | 400 |
 | COCO Captions | 28272 |
 
-The compressed dataset can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/Ef3pKO44QLhDuMjp9ZB0dc0B7DwI5ACzjOhjj7L6P6h-2Q?e=aiTPh4).
+The dataset will be released soon.
 Once unzipped, you should get a folder with the following structure:
 ```
 HPD
