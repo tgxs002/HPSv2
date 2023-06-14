@@ -1,6 +1,6 @@
 <p align="center"><img src="assets/hps_banner.png"/ width="100%"><br></p>
 
-## Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis
+## HPS v2: Benchmarking Text-to-Image Generative Models
 
 This is the official repository for the paper: Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis. 
 
@@ -61,7 +61,7 @@ The annotation file, `test.json`, is organized as:
 
 The benchmark prompts file, ie. `anime.json` is pure prompts. The corresponding image can be found in the folder of the corresponding model by indexing the prompt.
 
-### Environments
+## Environments
 
 ```
 # environments
@@ -69,6 +69,19 @@ pip install -r requirements.txt
 ```
 
 ## Evaluation
+
+Evaluating HPS v2's correlation with human preference choices:
+|  Model | Acc. on ImageReward test set (%)| Acc. on HPD v2 test set (%)
+| :-----: | :-----: |:-----: |
+|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 72.6 |
+|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 70.6 |
+|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 73.1 |
+|  [PickScore](https://github.com/yuvalkirstain/PickScore) | 62.9 | 79.8 |
+|  Single Human | 65.3 | 78.1 |
+|  HPS v2 | 65.7 | 83.3 |
+
+
+
 HPS v2 checkpoint can be downloaded from [here](???????????????)
 Run the following command for evaluating the HPS v2 model:
 ```
