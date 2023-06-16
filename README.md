@@ -2,7 +2,7 @@
 
 ## HPS v2: Benchmarking Text-to-Image Generative Models
 
-This is the official repository for the paper: Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis. 
+This is the official repository for the paper: [Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis](https://arxiv.org/abs/2306.09341). 
 
 ## Overview 
 <p align="center"><img src="assets/overview.png"/ width="100%"><br></p>
