@@ -161,4 +161,12 @@ bash configs/HPSv2.sh train ${GPUS} local
 bash configs/HPSv2.sh train ${GPUS} ${quota_type}
 ```
 
-## Citation
+## BibTeX
+```
+@article{wu2023human,
+  title={Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis},
+  author={Wu, Xiaoshi and Hao, Yiming and Sun, Keqiang and Chen, Yixiong and Zhu, Feng and Zhao, Rui and Li, Hongsheng},
+  journal={arXiv preprint arXiv:2306.09341},
+  year={2023}
+}
+```
