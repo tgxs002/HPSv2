@@ -13,6 +13,9 @@ This is the official repository for the paper: [Human Preference Score v2: A Sol
 
 ## The HPS v2 benchmark
 The HPS v2 benchmark tracks a model's capability of generating images of 4 styles: *Animation*, *Concept-art*, *Painting*, and *Photo*. 
+
+**The benchmark is actively updating, email us @ tgxs002@gmail.com or raise an issue if you feel your model/method needs to be included in this benchmark!**
+
 | Model                 | Animation | Concept-art | Painting | Photo    | Averaged |
 | ---------------------| --------- | ----------- | -------- | -------- | -------- |
 | Dreamlike Photoreal 2.0 | 0.2824  | 0.2760      | 0.2759   | 0.2799   | 0.2786 |
