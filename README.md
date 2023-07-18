@@ -131,7 +131,8 @@ Evaluating HPS v2's correlation with human preference choices:
 
 
 
-HPS v2 checkpoint can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EaeCIvuURH5Hh_dIeg6X8ssBCLbRKBqaB-_X6bFb5AUP4g?e=9GAXdW).
+HPS v2 checkpoint can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EaeCIvuURH5Hh_dIeg6X8ssBCLbRKBqaB-_X6bFb5AUP4g?e=9GAXdW). The model is also hosted on Huggingface at [here](https://huggingface.co/xswu/HPSv2/blob/main/HPS_v2.pt).
+
 Run following commands to evaluate the HPS v2 model on HPD v2 test set and ImageReward test set:
 ```shell
 # evaluate on HPD v2 test set
