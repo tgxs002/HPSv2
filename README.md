@@ -5,6 +5,7 @@
 This is the official repository for the paper: [Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis](https://arxiv.org/abs/2306.09341). 
 
 ## Updates
+*  [07/19/2023] Live demo is available at 🤗[Hugging Face](https://huggingface.co/spaces/xswu/HPSv2).
 *  [07/18/2023] We released our [test data](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EUsElAcJO4FIkspfmSC5RbgBHL-kz85t5nwkM0waegq_bA?e=LH9Ret).
 
 ## Overview 
@@ -137,7 +138,7 @@ Evaluating HPS v2's correlation with human preference choices:
 
 
 
-HPS v2 checkpoint can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EaeCIvuURH5Hh_dIeg6X8ssBCLbRKBqaB-_X6bFb5AUP4g?e=9GAXdW). The model is also hosted on Huggingface at [here](https://huggingface.co/xswu/HPSv2/blob/main/HPS_v2.pt).
+HPS v2 checkpoint can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EaeCIvuURH5Hh_dIeg6X8ssBCLbRKBqaB-_X6bFb5AUP4g?e=9GAXdW). The model and live demo is also hosted on 🤗 Hugging Face at [here](https://huggingface.co/spaces/xswu/HPSv2).
 
 Run the following commands to evaluate the HPS v2 model on HPD v2 test set and ImageReward test set:
 ```shell
