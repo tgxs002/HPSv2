@@ -64,7 +64,7 @@ Image sources of HPD v2:
 | FuseDream | 400 |
 | COCO Captions | 28272 |
 
-The dataset will be released soon.
+The dataset will be **released soon**.
 Once unzipped, you should get a folder with the following structure:
 ```
 HPD
@@ -160,6 +160,14 @@ python evaluate.py --data-type benchmark --data-path /path/to/HPD/benchmark --im
 python evaluate.py --data-type drawbench --data-path /path/to/HPD/benchmark --image-path /path/to/drawbench_imgs --batch-size 10 --checkpoint /path/to/HPSv2.pt
 ```
 
+### Scoring single generated image and corresponding prompt
+
+We provide one example image in the `asset/images` directory of this repo. The corresponding prompt is `"A cat with two horns on its head"`.
+
+Run the following commands to score the single generated image and the corresponding prompt:
+```shell
+python score.py --image_path assets/demo_image.jpg --prompt 'A cat with two horns on its head'
+```
 
 ## Train Human Preference Predictor
 To train your own human preference predictor, just change the corresponding path in `configs/controller.sh` and run the following command:

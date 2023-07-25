@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 parser = argparse.ArgumentParser()
 parser.add_argument('--image_path', type=str, required=True, help='Path to the input image')
 parser.add_argument('--prompt', type=str, required=True, help='Text prompt')
-parser.add_argument('--checkpoint', type=str, default='../HPSv2.pt', help='Path to the model checkpoint')
+parser.add_argument('--checkpoint', type=str, default='./HPS_v2.pt', help='Path to the model checkpoint')
 
 args = parser.parse_args()
 
@@ -50,7 +50,7 @@ with torch.no_grad():
     with torch.cuda.amp.autocast():
         outputs = model(image, text)
         image_features, text_features = outputs["image_features"], outputs["text_features"]
-        logits_per_image = outputs["logit_scale"] * image_features @ text_features.T
+        logits_per_image = image_features @ text_features.T
 
         hps_score = torch.diagonal(logits_per_image).cpu().numpy()
 print('HPSv2 score:', hps_score[0])
