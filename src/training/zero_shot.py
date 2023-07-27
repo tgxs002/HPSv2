@@ -4,7 +4,7 @@ import torch
 import torch.nn.functional as F
 from tqdm import tqdm
 
-from open_clip import get_cast_dtype, get_tokenizer
+from ..open_clip import get_cast_dtype, get_tokenizer
 from .precision import get_autocast
 from .imagenet_zeroshot_data import imagenet_classnames, openai_imagenet_template
 

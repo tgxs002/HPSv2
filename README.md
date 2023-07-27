@@ -5,6 +5,8 @@
 This is the official repository for the paper: [Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis](https://arxiv.org/abs/2306.09341). 
 
 ## Updates
+*  [07/27/2023] We included `SDXL Base 0.9` model in the benchmark.
+*  [07/26/2023] We updated our [compressed checkpoint](https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt).
 *  [07/19/2023] Live demo is available at 🤗[Hugging Face](https://huggingface.co/spaces/xswu/HPSv2).
 *  [07/18/2023] We released our [test data](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EUsElAcJO4FIkspfmSC5RbgBHL-kz85t5nwkM0waegq_bA?e=LH9Ret).
 
@@ -24,6 +26,7 @@ The HPS v2 benchmark tracks a model's capability of generating images of 4 style
 | ---------------------| --------- | ----------- | -------- | -------- | -------- |
 | Dreamlike Photoreal 2.0 | 0.2824  | 0.2760      | 0.2759   | 0.2799   | 0.2786 |
 | Realistic Vision      | 0.2822    | 0.2753      | 0.2756   | 0.2775   | 0.2777 |
+| SDXL Base 0.9         | 0.2842    | 0.2763      | 0.2760   | 0.2729   | 0.2773 |
 | Deliberate            | 0.2813    | 0.2746      | 0.2745   | 0.2762   | 0.2767 |
 | ChilloutMix           | 0.2792    | 0.2729      | 0.2732   | 0.2761   | 0.2754 |
 | MajicMix Realistic    | 0.2788    | 0.2719      | 0.2722   | 0.2764   | 0.2748 |
@@ -138,7 +141,7 @@ Evaluating HPS v2's correlation with human preference choices:
 
 
 
-HPS v2 checkpoint can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EaeCIvuURH5Hh_dIeg6X8ssBCLbRKBqaB-_X6bFb5AUP4g?e=9GAXdW). The model and live demo is also hosted on 🤗 Hugging Face at [here](https://huggingface.co/spaces/xswu/HPSv2).
+HPS v2 checkpoint can be downloaded from [here](https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt). The model and live demo is also hosted on 🤗 Hugging Face at [here](https://huggingface.co/spaces/xswu/HPSv2).
 
 Run the following commands to evaluate the HPS v2 model on HPD v2 test set and ImageReward test set:
 ```shell

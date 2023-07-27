@@ -32,7 +32,7 @@ from torch.utils.data.distributed import DistributedSampler, Sampler
 from webdataset.filters import _shuffle
 from webdataset.tariterators import base_plus_ext, url_opener, tar_file_expander, valid_sample
 
-from open_clip import transform
+from ..open_clip import transform
 
 try:
     import horovod.torch as hvd

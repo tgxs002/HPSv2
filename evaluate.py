@@ -5,6 +5,9 @@ import numpy as np
 from tqdm import tqdm
 from argparse import ArgumentParser
 from PIL import Image
+from tqdm import tqdm
+import requests
+from clint.textui import progress
 
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -18,15 +21,31 @@ parser = ArgumentParser()
 parser.add_argument('--data-type', type=str, choices=['benchmark', 'test', 'ImageReward', 'drawbench'])
 parser.add_argument('--data-path', type=str, help='path to dataset')
 parser.add_argument('--image-path', type=str, help='path to image files')
-parser.add_argument('--checkpoint', type=str, help='path to checkpoint')
+parser.add_argument('--checkpoint', type=str, default='./HPS_v2_compressed.pt', help='path to checkpoint')
 parser.add_argument('--batch-size', type=int, default=20)
 args = parser.parse_args()
+
+# os.environ["CUDA_VISIBLE_DEVICES"] = "1, 0"
 
 batch_size = args.batch_size
 args.model = "ViT-H-14"
 args.precision = 'amp'
 print(args.model)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+# check if the default checkpoint exists
+if args.checkpoint == './HPS_v2_compressed.pt' and not os.path.exists(args.checkpoint):
+    print('Downloading HPS_v2_compressed.pt ...')
+    url = 'https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt'
+    r = requests.get(url, stream=True)
+    with open('./HPS_v2_compressed.pt', 'wb') as HPSv2:
+        total_length = int(r.headers.get('content-length'))
+        for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
+            if chunk:
+                HPSv2.write(chunk)
+                HPSv2.flush()
+    print('Download HPS_v2_compressed.pt sucessfully.')
+
 model, preprocess_train, preprocess_val = create_model_and_transforms(
     args.model,
     'laion2B-s32B-b79K',
@@ -144,7 +163,7 @@ def evaluate_benchmark(data_path, root_dir, model):
     style_list = os.listdir(os.path.join(root_dir, model_list[0]))
 
     score = {}
-    for model_id in model_list:
+    for model_id in tqdm(model_list):
         score[model_id]={}
         for style in style_list:
             # score[model_id][style] = [0] * 10

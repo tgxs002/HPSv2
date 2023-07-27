@@ -17,7 +17,7 @@ from torch.nn.parallel.distributed import DistributedDataParallel
 
 from .data import ImageRewardDataset, RankingDataset
 
-from open_clip import get_cast_dtype, CLIP, CustomTextCLIP
+from ..open_clip import get_cast_dtype, CLIP, CustomTextCLIP
 from .distributed import is_master, barrier
 from .zero_shot import zero_shot_eval
 from .precision import get_autocast
