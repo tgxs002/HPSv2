@@ -5,7 +5,8 @@
 This is the official repository for the paper: [Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis](https://arxiv.org/abs/2306.09341). 
 
 ## Updates
-*  [07/27/2023] We included `SDXL Base 0.9` model in the benchmark.
+*  [07/29/2023] We released [the benchmark and HPD v2 test data](https://huggingface.co/datasets/zhwang/HPDv2). HPD v2 train data will be released sonn.
+*  [07/27/2023] We included `SDXL Base 0.9` and `SDXL Refiner 0.9` model in the benchmark.
 *  [07/26/2023] We updated our [compressed checkpoint](https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt).
 *  [07/19/2023] Live demo is available at 🤗[Hugging Face](https://huggingface.co/spaces/xswu/HPSv2).
 *  [07/18/2023] We released our [test data](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EUsElAcJO4FIkspfmSC5RbgBHL-kz85t5nwkM0waegq_bA?e=LH9Ret).
@@ -25,6 +26,7 @@ The HPS v2 benchmark tracks a model's capability of generating images of 4 style
 | Model                 | Animation | Concept-art | Painting | Photo    | Averaged |
 | ---------------------| --------- | ----------- | -------- | -------- | -------- |
 | Dreamlike Photoreal 2.0 | 0.2824  | 0.2760      | 0.2759   | 0.2799   | 0.2786 |
+| SDXL Refiner 0.9      | 0.2845    | 0.2766      | 0.2767   | 0.2746   | 0.2780 |
 | Realistic Vision      | 0.2822    | 0.2753      | 0.2756   | 0.2775   | 0.2777 |
 | SDXL Base 0.9         | 0.2842    | 0.2763      | 0.2760   | 0.2729   | 0.2773 |
 | Deliberate            | 0.2813    | 0.2746      | 0.2745   | 0.2762   | 0.2767 |
