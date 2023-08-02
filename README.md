@@ -71,7 +71,7 @@ Image sources of HPD v2:
 | FuseDream | 400 |
 | COCO Captions | 28272 |
 
-The dataset will be **released soon**.
+Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2). The training dataset will be **released soon**.
 Once unzipped, you should get a folder with the following structure:
 ```
 HPD
@@ -122,7 +122,6 @@ The annotation file, `test.json`, is organized as:
 ```
 
 The benchmark prompts file, ie. `anime.json` is pure prompts. The corresponding image can be found in the folder of the corresponding model by indexing the prompt.
-Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2)
 
 ## Environments
 
