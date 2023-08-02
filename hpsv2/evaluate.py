@@ -12,64 +12,13 @@ from clint.textui import progress
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-from src.open_clip import create_model_and_transforms, get_tokenizer
-from src.training.train import calc_ImageReward, inversion_score
-from src.training.data import ImageRewardDataset, collate_rank, RankingDataset
+from .src.open_clip import create_model_and_transforms, get_tokenizer
+from .src.training.train import calc_ImageReward, inversion_score
+from .src.training.data import ImageRewardDataset, collate_rank, RankingDataset
 
 
-parser = ArgumentParser()
-parser.add_argument('--data-type', type=str, choices=['benchmark', 'test', 'ImageReward', 'drawbench'])
-parser.add_argument('--data-path', type=str, help='path to dataset')
-parser.add_argument('--image-path', type=str, help='path to image files')
-parser.add_argument('--checkpoint', type=str, default='./HPS_v2_compressed.pt', help='path to checkpoint')
-parser.add_argument('--batch-size', type=int, default=20)
-args = parser.parse_args()
-
-# os.environ["CUDA_VISIBLE_DEVICES"] = "1, 0"
-
-batch_size = args.batch_size
-args.model = "ViT-H-14"
-args.precision = 'amp'
-print(args.model)
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
-# check if the default checkpoint exists
-if args.checkpoint == './HPS_v2_compressed.pt' and not os.path.exists(args.checkpoint):
-    print('Downloading HPS_v2_compressed.pt ...')
-    url = 'https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt'
-    r = requests.get(url, stream=True)
-    with open('./HPS_v2_compressed.pt', 'wb') as HPSv2:
-        total_length = int(r.headers.get('content-length'))
-        for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
-            if chunk:
-                HPSv2.write(chunk)
-                HPSv2.flush()
-    print('Download HPS_v2_compressed.pt sucessfully.')
-
-model, preprocess_train, preprocess_val = create_model_and_transforms(
-    args.model,
-    'laion2B-s32B-b79K',
-    precision=args.precision,
-    device=device,
-    jit=False,
-    force_quick_gelu=False,
-    force_custom_text=False,
-    force_patch_dropout=False,
-    force_image_size=None,
-    pretrained_image=False,
-    image_mean=None,
-    image_std=None,
-    light_augmentation=True,
-    aug_cfg={},
-    output_dict=True,
-    with_score_predictor=False,
-    with_region_predictor=False
-)
-
-checkpoint = torch.load(args.checkpoint)
-model.load_state_dict(checkpoint['state_dict'])
-tokenizer = get_tokenizer(args.model)
-model.eval()
+environ_root = os.environ.get('HPS_ROOT')
+root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else environ_root
 
 class BenchmarkDataset(Dataset):
     def __init__(self, meta_file, image_folder,transforms, tokenizer):
@@ -93,7 +42,7 @@ class BenchmarkDataset(Dataset):
             print('file not exist')
             return self.__getitem__((idx + 1) % len(self))
 
-def evaluate_IR(data_path, image_folder, model):
+def evaluate_IR(data_path, image_folder, model, batch_size, preprocess_val, tokenizer, device):
     meta_file = data_path + '/ImageReward_test.json'
     dataset = ImageRewardDataset(meta_file, image_folder, preprocess_val, tokenizer)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=4, collate_fn=collate_rank)
@@ -120,7 +69,7 @@ def evaluate_IR(data_path, image_folder, model):
             score +=sum([calc_ImageReward(paired_logits_list[i].tolist(), labels[i]) for i in range(len(hps_ranking))])
     print('ImageReward:', score/total)
 
-def evaluate_rank(data_path, image_folder, model):
+def evaluate_rank(data_path, image_folder, model, batch_size, preprocess_val, tokenizer, device):
     meta_file = data_path + '/test.json'
     dataset = RankingDataset(meta_file, image_folder, preprocess_val, tokenizer)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=4, collate_fn=collate_rank)
@@ -156,8 +105,41 @@ def collate_eval(batch):
     captions = torch.cat([sample[1] for sample in batch])
     return images, captions
 
+def evaluate_benchmark(data_path, img_path, model, batch_size, preprocess_val, tokenizer, device):
+    meta_dir = data_path
+    style_list = os.listdir(img_path)
+    model_id = img_path.split('/')[-1]
 
-def evaluate_benchmark(data_path, root_dir, model):
+    score = {}
+    
+    score[model_id]={}
+    for style in style_list:
+        # score[model_id][style] = [0] * 10
+        score[model_id][style] = []
+        image_folder = os.path.join(img_path, style)
+        meta_file = os.path.join(meta_dir, f'{style}.json')
+        dataset = BenchmarkDataset(meta_file, image_folder, preprocess_val, tokenizer)
+        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_eval)
+
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                images, texts = batch
+                images = images.to(device=device, non_blocking=True)
+                texts = texts.to(device=device, non_blocking=True)
+
+                with torch.cuda.amp.autocast():
+                    outputs = model(images, texts)
+                    image_features, text_features = outputs["image_features"], outputs["text_features"]
+                    logits_per_image = image_features @ text_features.T
+                # score[model_id][style][i] = torch.sum(torch.diagonal(logits_per_image)).cpu().item() / 80
+                score[model_id][style].extend(torch.diagonal(logits_per_image).cpu().tolist())
+    print('-----------benchmark score ---------------- ')
+    for model_id, data in score.items():
+        for style , res in data.items():
+            avg_score = [np.mean(res[i:i+80]) for i in range(0, 800, 80)]
+            print(model_id, '\t', style, '\t', np.mean(avg_score), '\t', np.std(avg_score))
+
+def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_dir = data_path
     model_list = os.listdir(root_dir)
     style_list = os.listdir(os.path.join(root_dir, model_list[0]))
@@ -191,8 +173,7 @@ def evaluate_benchmark(data_path, root_dir, model):
             avg_score = [np.mean(res[i:i+80]) for i in range(0, 800, 80)]
             print(model_id, '\t', style, '\t', np.mean(avg_score), '\t', np.std(avg_score))
 
-
-def evaluate_benchmark_DB(data_path, root_dir, model):
+def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_file = data_path + '/drawbench.json'
     model_list = os.listdir(root_dir)
     
@@ -221,19 +202,81 @@ def evaluate_benchmark_DB(data_path, root_dir, model):
     print('-----------drawbench score ---------------- ')
     for model, data in score.items():
         print(model, '\t', '\t', np.mean(data))
+        
+def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'datasets/benchmark'), checkpoint_path: str = os.path.join(root_path, 'HPS_v2_compressed.pt'), batch_size: int = 20) -> None:
+    
+    # check if the default checkpoint exists
+    if not os.path.exists(root_path):
+        os.makedirs(root_path)
+    if checkpoint_path == os.path.join(root_path,'HPS_v2_compressed.pt') and not os.path.exists(checkpoint_path):
+        print('Downloading HPS_v2_compressed.pt ...')
+        url = 'https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt'
+        r = requests.get(url, stream=True)
+        with open(os.path.join(root_path, 'HPS_v2_compressed.pt'), 'wb') as HPSv2:
+            total_length = int(r.headers.get('content-length'))
+            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
+                if chunk:
+                    HPSv2.write(chunk)
+                    HPSv2.flush()
+        print('Download HPS_v2_compressed.pt to {} sucessfully.'.format(root_path+'/'))
+        
+    model_name = "ViT-H-14"
+    precision = 'amp'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    
+    model, preprocess_train, preprocess_val = create_model_and_transforms(
+        model_name,
+        'laion2B-s32B-b79K',
+        precision=precision,
+        device=device,
+        jit=False,
+        force_quick_gelu=False,
+        force_custom_text=False,
+        force_patch_dropout=False,
+        force_image_size=None,
+        pretrained_image=False,
+        image_mean=None,
+        image_std=None,
+        light_augmentation=True,
+        aug_cfg={},
+        output_dict=True,
+        with_score_predictor=False,
+        with_region_predictor=False
+    )  
 
+    print('Loading model ...')
+    checkpoint = torch.load(checkpoint_path)
+    model.load_state_dict(checkpoint['state_dict'])
+    tokenizer = get_tokenizer(model_name)
+    model.eval()
+    print('Loading model successfully!')
+    
+    
+    if mode == 'ImageReward':
+        evaluate_IR(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device)
+    elif mode == 'test':
+        evaluate_rank(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device)
+    elif mode == 'benchmark_all':
+        evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device)
+    elif mode == 'benchmark':
+        evaluate_benchmark(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device)
+    elif mode == 'drawbench':
+        evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device)
+    else:
+        raise NotImplementedError
 
-if args.data_type == 'ImageReward':
-    evaluate_IR(args.data_path, args.image_path, model)
-elif args.data_type == 'test':
-    evaluate_rank(args.data_path, args.image_path, model)
-elif args.data_type == 'benchmark':
-    evaluate_benchmark(args.data_path, args.image_path, model)
-elif args.data_type == 'drawbench':
-    evaluate_benchmark_DB(args.data_path, args.image_path, model)
-else:
-    raise NotImplementedError
+if __name__ == '__main__':
+    # Parse arguments
+    parser = ArgumentParser()
+    parser.add_argument('--data-type', type=str, required=True, choices=['benchmark', 'benchmark_all', 'test', 'ImageReward', 'drawbench'])
+    parser.add_argument('--data-path', type=str, required=True, help='path to dataset')
+    parser.add_argument('--image-path', type=str, required=True, help='path to image files')
+    parser.add_argument('--checkpoint', type=str, default='./HPS_v2_compressed.pt', help='path to checkpoint')
+    parser.add_argument('--batch-size', type=int, default=20)
+    args = parser.parse_args()
+    
+    evaluate(mode=args.data_type, data_path=args.data_path, root_dir=args.image_path, checkpoint_path=args.checkpoint, batch_size=args.batch_size)
 
-
-
-
+    
+    
+    
