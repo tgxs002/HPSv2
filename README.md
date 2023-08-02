@@ -5,12 +5,13 @@
 This is the official repository for the paper: [Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis](https://arxiv.org/abs/2306.09341). 
 
 ## Updates
+*  [08/02/2023] Updated [test.json](https://huggingface.co/datasets/zhwang/HPDv2/blob/main/test.json) to include raw annotation by each annotator.
 *  [07/29/2023] We included `SDXL Refiner 0.9` model in the benchmark. It ranks 2rd on our benchmark!
-*  [07/29/2023] We released [the benchmark and HPD v2 test data](https://huggingface.co/datasets/zhwang/HPDv2). HPD v2 train data will be released sonn.
+*  [07/29/2023] We released [the benchmark and HPD v2 test data](https://huggingface.co/datasets/zhwang/HPDv2). HPD v2 train data will be released soon.
 *  [07/27/2023] We included `SDXL Base 0.9` model in the benchmark. It ranks 4th on our benchmark!
 *  [07/26/2023] We updated our [compressed checkpoint](https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt).
 *  [07/19/2023] Live demo is available at 🤗[Hugging Face](https://huggingface.co/spaces/xswu/HPSv2).
-*  [07/18/2023] We released our [test data](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EUsElAcJO4FIkspfmSC5RbgBHL-kz85t5nwkM0waegq_bA?e=LH9Ret).
+*  [07/18/2023] We released our [test data](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EVnjOngvDO1MhIp7hVr8GXgBmxVDcSk7s9Xuu9srO4YLbA?e=8PqYud).
 
 ## Overview 
 <p align="center"><img src="assets/overview.png"/ width="100%"><br></p>
@@ -121,6 +122,7 @@ The annotation file, `test.json`, is organized as:
 ```
 
 The benchmark prompts file, ie. `anime.json` is pure prompts. The corresponding image can be found in the folder of the corresponding model by indexing the prompt.
+Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2)
 
 ## Environments
 
@@ -157,7 +159,7 @@ python evaluate.py --data-type ImageReward --data-path /path/to/IR --image-path 
 ```
 
 ### Evaluating text-to-image generative models using HPS v2
-The generated images in our experiments can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EUsElAcJO4FIkspfmSC5RbgBHL-kz85t5nwkM0waegq_bA?e=LH9Ret). 
+The generated images in our experiments can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EVnjOngvDO1MhIp7hVr8GXgBmxVDcSk7s9Xuu9srO4YLbA?e=8PqYud). 
 The following script reproduces the [benchmark table](#the-hps-v2-benchmark) and our results on DrawBench (reported in the paper):
 ```shell
 # HPS v2 benchmark
