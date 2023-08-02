@@ -135,9 +135,9 @@ pip install -r requirements.txt
 Evaluating HPS v2's correlation with human preference choices:
 |  Model | Acc. on ImageReward test set (%)| Acc. on HPD v2 test set (%)
 | :-----: | :-----: |:-----: |
-|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 72.6 |
-|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 70.6 |
-|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 73.1 |
+|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 76.8 |
+|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 74.0 |
+|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 77.6 |
 |  [PickScore](https://github.com/yuvalkirstain/PickScore) | 62.9 | 79.8 |
 |  Single Human | 65.3 | 78.1 |
 |  HPS v2 | 65.7 | 83.3 |
