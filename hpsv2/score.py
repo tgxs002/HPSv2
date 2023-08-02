@@ -12,29 +12,39 @@ warnings.filterwarnings("ignore", category=UserWarning)
 environ_root = os.environ.get('HPS_ROOT')
 root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else environ_root
 
+model_dict = {}
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-model, preprocess_train, preprocess_val = create_model_and_transforms(
-    'ViT-H-14',
-    'laion2B-s32B-b79K',
-    precision='amp',
-    device=device,
-    jit=False,
-    force_quick_gelu=False,
-    force_custom_text=False,
-    force_patch_dropout=False,
-    force_image_size=None,
-    pretrained_image=False,
-    image_mean=None,
-    image_std=None,
-    light_augmentation=True,
-    aug_cfg={},
-    output_dict=True,
-    with_score_predictor=False,
-    with_region_predictor=False
-)
 
+def initialize_model():
+    if not model_dict:
+        model, preprocess_train, preprocess_val = create_model_and_transforms(
+            'ViT-H-14',
+            'laion2B-s32B-b79K',
+            precision='amp',
+            device=device,
+            jit=False,
+            force_quick_gelu=False,
+            force_custom_text=False,
+            force_patch_dropout=False,
+            force_image_size=None,
+            pretrained_image=False,
+            image_mean=None,
+            image_std=None,
+            light_augmentation=True,
+            aug_cfg={},
+            output_dict=True,
+            with_score_predictor=False,
+            with_region_predictor=False
+        )
+        model_dict['model'] = model
+        model_dict['preprocess_val'] = preprocess_val
 
 def score(img_path: str, prompt: str, cp: str = os.path.join(root_path, 'HPS_v2_compressed.pt')) -> float:
+
+    initialize_model()
+    model = model_dict['model']
+    preprocess_val = model_dict['preprocess_val']
+
     # check if the checkpoint exists
     if not os.path.exists(root_path):
         os.makedirs(root_path)
@@ -68,7 +78,6 @@ def score(img_path: str, prompt: str, cp: str = os.path.join(root_path, 'HPS_v2_
             logits_per_image = image_features @ text_features.T
 
             hps_score = torch.diagonal(logits_per_image).cpu().numpy()
-    print('HPSv2 score:', hps_score[0])
     return hps_score[0]
 
 if __name__ == '__main__':
@@ -80,4 +89,5 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    score(args.image_path, args.prompt, args.checkpoint)
+    hps_score = score(args.image_path, args.prompt, args.checkpoint)
+    print('HPSv2 score:', hps_score)

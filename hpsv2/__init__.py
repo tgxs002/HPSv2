@@ -81,18 +81,17 @@ def evaluate_benchmark(model_id: str) -> None:
     data_path = os.path.join(root_path, 'datasets/benchmark')
     eval.evaluate(mode="benchmark", data_path=data_path, root_dir=imgs_path)
 
-def score(img_path: str, prompt: str, checkpoint: str = './HPS_v2_compressed.pt') -> float:
+def score(img_path: str, prompt: str) -> float:
     """Score the image and prompt
 
     Args:
         img_path (str): path to generated image
         prompt (str): corresponding prompt
-        checkpoint (str, optional): checkpoint of HPS v2 model. Defaults to './HPS_v2_compressed.pt'.
 
     Returns:
         float: matching scores for image and prompt
     """
-    res = scr.score(img_path, prompt, checkpoint)
+    res = scr.score(img_path, prompt)
     return res
 
 def benchmark_prompts(style: str = 'all') -> Union[dict, list]:

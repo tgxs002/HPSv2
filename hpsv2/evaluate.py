@@ -137,7 +137,7 @@ def evaluate_benchmark(data_path, img_path, model, batch_size, preprocess_val, t
     for model_id, data in score.items():
         for style , res in data.items():
             avg_score = [np.mean(res[i:i+80]) for i in range(0, 800, 80)]
-            print(model_id, '\t', style, '\t', np.mean(avg_score), '\t', np.std(avg_score))
+            print(model_id, '{:<15}'.format(style), '{:.4f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
 
 def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_dir = data_path
@@ -171,7 +171,7 @@ def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_va
     for model_id, data in score.items():
         for style , res in data.items():
             avg_score = [np.mean(res[i:i+80]) for i in range(0, 800, 80)]
-            print(model_id, '\t', style, '\t', np.mean(avg_score), '\t', np.std(avg_score))
+            print(model_id, '{:<15}'.format(style), '{:.4f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
 
 def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_file = data_path + '/drawbench.json'
@@ -202,6 +202,36 @@ def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val
     print('-----------drawbench score ---------------- ')
     for model, data in score.items():
         print(model, '\t', '\t', np.mean(data))
+
+model_dict = {}
+model_name = "ViT-H-14"
+precision = 'amp'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+def initialize_model():
+    if not model_dict:
+        model, preprocess_train, preprocess_val = create_model_and_transforms(
+            model_name,
+            'laion2B-s32B-b79K',
+            precision=precision,
+            device=device,
+            jit=False,
+            force_quick_gelu=False,
+            force_custom_text=False,
+            force_patch_dropout=False,
+            force_image_size=None,
+            pretrained_image=False,
+            image_mean=None,
+            image_std=None,
+            light_augmentation=True,
+            aug_cfg={},
+            output_dict=True,
+            with_score_predictor=False,
+            with_region_predictor=False
+        )
+        model_dict['model'] = model
+        model_dict['preprocess_val'] = preprocess_val
+
         
 def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'datasets/benchmark'), checkpoint_path: str = os.path.join(root_path, 'HPS_v2_compressed.pt'), batch_size: int = 20) -> None:
     
@@ -219,30 +249,10 @@ def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'
                     HPSv2.write(chunk)
                     HPSv2.flush()
         print('Download HPS_v2_compressed.pt to {} sucessfully.'.format(root_path+'/'))
-        
-    model_name = "ViT-H-14"
-    precision = 'amp'
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
-    model, preprocess_train, preprocess_val = create_model_and_transforms(
-        model_name,
-        'laion2B-s32B-b79K',
-        precision=precision,
-        device=device,
-        jit=False,
-        force_quick_gelu=False,
-        force_custom_text=False,
-        force_patch_dropout=False,
-        force_image_size=None,
-        pretrained_image=False,
-        image_mean=None,
-        image_std=None,
-        light_augmentation=True,
-        aug_cfg={},
-        output_dict=True,
-        with_score_predictor=False,
-        with_region_predictor=False
-    )  
+    initialize_model()
+    model = model_dict['model']
+    preprocess_val = model_dict['preprocess_val']
 
     print('Loading model ...')
     checkpoint = torch.load(checkpoint_path)
