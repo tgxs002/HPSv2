@@ -12,9 +12,9 @@ from clint.textui import progress
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-from .src.open_clip import create_model_and_transforms, get_tokenizer
-from .src.training.train import calc_ImageReward, inversion_score
-from .src.training.data import ImageRewardDataset, collate_rank, RankingDataset
+from hpsv2.src.open_clip import create_model_and_transforms, get_tokenizer
+from hpsv2.src.training.train import calc_ImageReward, inversion_score
+from hpsv2.src.training.data import ImageRewardDataset, collate_rank, RankingDataset
 
 
 environ_root = os.environ.get('HPS_ROOT')
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     parser.add_argument('--data-type', type=str, required=True, choices=['benchmark', 'benchmark_all', 'test', 'ImageReward', 'drawbench'])
     parser.add_argument('--data-path', type=str, required=True, help='path to dataset')
     parser.add_argument('--image-path', type=str, required=True, help='path to image files')
-    parser.add_argument('--checkpoint', type=str, default='./HPS_v2_compressed.pt', help='path to checkpoint')
+    parser.add_argument('--checkpoint', type=str, default=os.path.join(root_path,'HPS_v2_compressed.pt'), help='path to checkpoint')
     parser.add_argument('--batch-size', type=int, default=20)
     args = parser.parse_args()
     

@@ -1,6 +1,6 @@
 import torch
 from PIL import Image
-from .src.open_clip import create_model_and_transforms, get_tokenizer
+from hpsv2.src.open_clip import create_model_and_transforms, get_tokenizer
 import warnings
 import argparse
 import os
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--image-path', type=str, required=True, help='Path to the input image')
     parser.add_argument('--prompt', type=str, required=True, help='Text prompt')
-    parser.add_argument('--checkpoint', type=str, default='./HPS_v2_compressed.pt', help='Path to the model checkpoint')
+    parser.add_argument('--checkpoint', type=str, default=os.path.join(root_path,'HPS_v2_compressed.pt'), help='Path to the model checkpoint')
 
     args = parser.parse_args()
 
