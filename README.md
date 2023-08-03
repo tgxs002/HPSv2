@@ -13,12 +13,13 @@ This is the official repository for the paper: [Human Preference Score v2: A Sol
 
 ## Updates
 *  [08/02/2023] We released the [PyPI package](https://pypi.org/project/hpsv2/). You can learn how to use it from the [Quick start section](#quick-start).
+*  [08/02/2023] Updated [test.json](https://huggingface.co/datasets/zhwang/HPDv2/blob/main/test.json) to include raw annotation by each annotator.
 *  [07/29/2023] We included `SDXL Refiner 0.9` model in the benchmark.
-*  [07/29/2023] We released [the benchmark and HPD v2 test data](https://huggingface.co/datasets/zhwang/HPDv2). HPD v2 train data will be released sonn.
-*  [07/27/2023] We included `SDXL Base 0.9` model in the benchmark. It ranks 4th on our benchmark!
+*  [07/29/2023] We released [the benchmark and HPD v2 test data](https://huggingface.co/datasets/zhwang/HPDv2). HPD v2 train data will be released soon.
+*  [07/27/2023] We included `SDXL Base 0.9` model in the benchmark.
 *  [07/26/2023] We updated our [compressed checkpoint](https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt).
 *  [07/19/2023] Live demo is available at 🤗[Hugging Face](https://huggingface.co/spaces/xswu/HPSv2).
-*  [07/18/2023] We released our [test data](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EUsElAcJO4FIkspfmSC5RbgBHL-kz85t5nwkM0waegq_bA?e=LH9Ret).
+*  [07/18/2023] We released our [test data](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EVnjOngvDO1MhIp7hVr8GXgBmxVDcSk7s9Xuu9srO4YLbA?e=8PqYud).
 
 ## Overview 
 <p align="center"><img src="hpsv2/assets/overview.png"/ width="100%"><br></p>
@@ -144,9 +145,9 @@ hpsv2.evaluate("<images_path>")
 Evaluating HPS v2's correlation with human preference choices:
 |  Model | Acc. on ImageReward test set (%)| Acc. on HPD v2 test set (%)
 | :-----: | :-----: |:-----: |
-|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 72.6 |
-|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 70.6 |
-|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 73.1 |
+|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 76.8 |
+|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 74.0 |
+|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 77.6 |
 |  [PickScore](https://github.com/yuvalkirstain/PickScore) | 62.9 | 79.8 |
 |  Single Human | 65.3 | 78.1 |
 |  HPS v2 | 65.7 | 83.3 |
@@ -179,7 +180,7 @@ Image sources of HPD v2:
 | FuseDream | 400 |
 | COCO Captions | 28272 |
 
-The dataset will be **released soon**.
+Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2). The training dataset will be **released soon**.
 Once unzipped, you should get a folder with the following structure:
 ```
 HPD
@@ -222,7 +223,8 @@ The annotation file, `test.json`, is organized as:
     {
         'prompt': str,
         'image_path': list[str],
-        'rank': list[int], # ranking for image at the same index in image_path
+        'rank': list[int], # averaged ranking result for image at the same index in image_path,
+        'raw_annotation': list[{'rank', 'user_hash'}]  # raw ranking result from each annotator
     },
     ...
 ]
@@ -233,7 +235,7 @@ The benchmark prompts file, ie. `anime.json` is pure prompts. The corresponding 
 ## Command Line Interface
 
 ### Evaluating Text-to-image Generative Models using HPS v2
-The generated images in our experiments can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EUsElAcJO4FIkspfmSC5RbgBHL-kz85t5nwkM0waegq_bA?e=LH9Ret). 
+The generated images in our experiments can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/EVnjOngvDO1MhIp7hVr8GXgBmxVDcSk7s9Xuu9srO4YLbA?e=8PqYud). 
 
 The following script reproduces the [benchmark table](#the-hps-v2-benchmark) and our results on DrawBench (reported in the paper) **(Need to install the package `hpsv2` first)**:
 ```shell
