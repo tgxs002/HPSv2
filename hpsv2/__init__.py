@@ -6,6 +6,7 @@ from . import utils
 from . import score as scr
 from . import evaluate as eval
 
+
 environ_root = os.environ.get('HPS_ROOT')
 root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else environ_root
 name = 'hpsv2'
@@ -81,17 +82,17 @@ def evaluate_benchmark(model_id: str) -> None:
     data_path = os.path.join(root_path, 'datasets/benchmark')
     eval.evaluate(mode="benchmark", data_path=data_path, root_dir=imgs_path)
 
-def score(img_path: str, prompt: str) -> float:
+def score(imgs_path: list, prompt: str) -> float:
     """Score the image and prompt
 
     Args:
-        img_path (str): path to generated image
+        imgs_path (list): paths to generated images
         prompt (str): corresponding prompt
 
     Returns:
-        float: matching scores for image and prompt
+        float: matching scores for images and prompt
     """
-    res = scr.score(img_path, prompt)
+    res = scr.score(imgs_path, prompt)
     return res
 
 def benchmark_prompts(style: str = 'all') -> Union[dict, list]:

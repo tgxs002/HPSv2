@@ -39,7 +39,7 @@ def initialize_model():
         model_dict['model'] = model
         model_dict['preprocess_val'] = preprocess_val
 
-def score(img_path: str, prompt: str, cp: str = os.path.join(root_path, 'HPS_v2_compressed.pt')) -> float:
+def score(img_path: list, prompt: str, cp: str = os.path.join(root_path, 'HPS_v2_compressed.pt')) -> float:
 
     initialize_model()
     model = model_dict['model']
@@ -65,20 +65,23 @@ def score(img_path: str, prompt: str, cp: str = os.path.join(root_path, 'HPS_v2_
     tokenizer = get_tokenizer('ViT-H-14')
     model.eval()
     
-    # Load your image and prompt
-    with torch.no_grad():
-        # Process the image
-        image = preprocess_val(Image.open(img_path)).unsqueeze(0).to(device=device, non_blocking=True)
-        # Process the prompt
-        text = tokenizer([prompt]).to(device=device, non_blocking=True)
-        # Calculate the HPS
-        with torch.cuda.amp.autocast():
-            outputs = model(image, text)
-            image_features, text_features = outputs["image_features"], outputs["text_features"]
-            logits_per_image = image_features @ text_features.T
+    result = []
+    for one_img_path in img_path:
+        # Load your image and prompt
+        with torch.no_grad():
+            # Process the image
+            image = preprocess_val(Image.open(one_img_path)).unsqueeze(0).to(device=device, non_blocking=True)
+            # Process the prompt
+            text = tokenizer([prompt]).to(device=device, non_blocking=True)
+            # Calculate the HPS
+            with torch.cuda.amp.autocast():
+                outputs = model(image, text)
+                image_features, text_features = outputs["image_features"], outputs["text_features"]
+                logits_per_image = image_features @ text_features.T
 
-            hps_score = torch.diagonal(logits_per_image).cpu().numpy()
-    return hps_score[0]
+                hps_score = torch.diagonal(logits_per_image).cpu().numpy()
+        result.append(hps_score[0])
+    return result
 
 if __name__ == '__main__':
     # Create an argument parser
