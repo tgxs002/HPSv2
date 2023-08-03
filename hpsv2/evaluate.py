@@ -97,6 +97,8 @@ def evaluate_rank(data_path, image_folder, model, batch_size, preprocess_val, to
             all_rankings.extend(hps_ranking)
             score += sum([inversion_score(hps_ranking[i], labels[i]) for i in range(len(hps_ranking))])
     print('ranking_acc:', score/total)
+    if not os.path.exists('logs'):
+        os.makedirs('logs')
     with open('logs/hps_rank.json', 'w') as f:
         json.dump(all_rankings, f)
 
