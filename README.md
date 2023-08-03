@@ -62,8 +62,8 @@ The HPS v2 benchmark evaluates models' capability of generating images of 4 styl
 We show how to:
 - [Evaluate your own model using HPS v2](#custom-evaluation).
 - [Reproduce our benchmark](#benchmark-reproduction).
-- Compare images using HPS v2.
-- Evaluate our preference model.
+- [Compare images using HPS v2](#image-comparison).
+- [Evaluate our preference model](#preference-model-evaluation).
 
 We also provide [command line interfaces](#command-line-interface) for debugging purposes.
 
