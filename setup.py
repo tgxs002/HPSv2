@@ -18,7 +18,7 @@ URL = 'https://github.com/tgxs002/HPSv2'
 EMAIL = 'wangzhih02@gmail.com'
 AUTHOR = 'Zhiheng Wang et al.'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.3.0'
+VERSION = '1.3.1'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
@@ -130,6 +130,11 @@ setup(
     # entry_points={
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
+    package_data={
+        'hpsv2': ['configs/*', 'assets/*', 'tests/**/*'],
+        'hpsv2.src.open_clip': ['**/*'],
+        'hpsv2.src.training': ['*']
+    },
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,

@@ -12,7 +12,7 @@
 This is the official repository for the paper: [Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis](https://arxiv.org/abs/2306.09341). 
 
 ## Updates
-*  [08/02/2023] We released the [Pypi package](https://pypi.org/project/hpsv2/). You can learn how to use it from the [Quick start section](#quick-start).
+*  [08/02/2023] We released the [PyPI package](https://pypi.org/project/hpsv2/). You can learn how to use it from the [Quick start section](#quick-start).
 *  [07/29/2023] We included `SDXL Refiner 0.9` model in the benchmark.
 *  [07/29/2023] We released [the benchmark and HPD v2 test data](https://huggingface.co/datasets/zhwang/HPDv2). HPD v2 train data will be released sonn.
 *  [07/27/2023] We included `SDXL Base 0.9` model in the benchmark. It ranks 4th on our benchmark!
