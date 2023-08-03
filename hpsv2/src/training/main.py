@@ -22,7 +22,7 @@ try:
     import horovod.torch as hvd
 except ImportError:
     hvd = None
-from src.open_clip import create_model_and_transforms, trace_model, get_tokenizer
+from ..open_clip import create_model_and_transforms, trace_model, get_tokenizer
 from .data import get_data, PreferenceDataset, RegionDataset, RankingDataset, ImageRewardDataset, HPDDataset
 from .distributed import is_master, init_distributed_device, broadcast_object, barrier
 from .logger import setup_logging
