@@ -121,7 +121,7 @@ for style, prompts in all_prompts.items():
     for prompt in prompts:
         image = TextToImageModel(prompt) 
         # TextToImageModel is the model you want to evaluate
-        image.save(os.path.join("<image_path", style, "<image_name>")) 
+        image.save(os.path.join("<image_path>", style, "<image_name>")) 
         # <image_path> is the folder path to store generated images, as the input of hpsv2.evaluate().
         # <image_name> is of the form of '00xxx.jpg', with 'xxx' ranging from '000' to '799' corresponding to each prompt.
 
