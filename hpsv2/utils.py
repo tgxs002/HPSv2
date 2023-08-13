@@ -260,6 +260,3 @@ def get_available_models() -> list:
             available_models.append(model_id)
     
     return available_models
-
-# if __name__ == '__main__':
-#     download_benchmark_images('CM')
