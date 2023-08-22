@@ -181,7 +181,10 @@ Image sources of HPD v2:
 | FuseDream | 400 |
 | COCO Captions | 28272 |
 
-Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2). The training dataset will be **released soon**.
+Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2). You can inspect the test data at [https://tgxs002.github.io/hpd_test_vis/](https://tgxs002.github.io/hpd_test_vis/). Here is a screenshot:
+![test_vis](https://github.com/tgxs002/HPSv2/blob/master/hpsv2/assets/test_vis.png)
+
+The training dataset will be **released soon**.
 Once unzipped, you should get a folder with the following structure:
 ```
 HPD
