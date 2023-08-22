@@ -10,6 +10,7 @@ environ_root = os.environ.get('HPS_ROOT')
 root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else environ_root
 name = 'hpsv2'
 url = 'https://github.com/tgxs002/HPSv2'
+os.environ['NO_PROXY'] = 'huggingface.co'
 
 # Acquire available models
 available_models = utils.get_available_models()

@@ -231,7 +231,11 @@ def get_available_models() -> list:
     access_token = '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'
     dataset_url = 'https://huggingface.co/api/datasets/zhwang/HPDv2'
     
-    response = requests.get(dataset_url, auth=('token', access_token))
+    try:
+        response = requests.get(dataset_url, auth=('token', access_token))
+    except Exception as e:
+        print(str(e))
+        return []
     
     # Check for correct HTTP status code
     if response.status_code != 200:

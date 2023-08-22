@@ -61,9 +61,10 @@ def score(img_path: Union[list, str, Image.Image], prompt: str, cp: str = os.pat
                     HPSv2.flush()
         print('Download HPS_2_compressed.pt to {} sucessfully.'.format(root_path+'/'))
     
-    checkpoint = torch.load(cp)
+    checkpoint = torch.load(cp, map_location=device)
     model.load_state_dict(checkpoint['state_dict'])
     tokenizer = get_tokenizer('ViT-H-14')
+    model = model.to(device)
     model.eval()
     
     
