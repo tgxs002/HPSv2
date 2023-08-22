@@ -230,11 +230,11 @@ def get_available_models() -> list:
     """
     access_token = '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'
     dataset_url = 'https://huggingface.co/api/datasets/zhwang/HPDv2'
-    
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko',"Content-Type": "application/json"}
     try:
-        response = requests.get(dataset_url, auth=('token', access_token))
+        response = requests.get(dataset_url, auth=('token', access_token), headers=headers)
     except Exception as e:
-        print(str(e))
+        print(f'Failed to get repository contents: {str(e)}')
         return []
     
     # Check for correct HTTP status code
