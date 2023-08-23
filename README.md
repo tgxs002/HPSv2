@@ -143,14 +143,16 @@ hpsv2.evaluate("<images_path>")
 ### Preference Model Evaluation
 
 Evaluating HPS v2's correlation with human preference choices:
-|  Model | Acc. on ImageReward test set (%)| Acc. on HPD v2 test set (%)
-| :-----: | :-----: |:-----: |
-|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 76.8 |
-|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 74.0 |
-|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 77.6 |
-|  [PickScore](https://github.com/yuvalkirstain/PickScore) | 62.9 | 79.8 |
-|  Single Human | 65.3 | 78.1 |
-|  HPS v2 | 65.7 | 83.3 |
+|  Model | Acc. on ImageReward test set (%)| Acc. on HPD v2 test set (%) | Acc. on new test set (%) |
+| :-----: | :-----: |:-----: |:-----: |
+|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 76.8 | - |
+|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 74.0 | - |
+|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 77.6 | - |
+|  [PickScore](https://github.com/yuvalkirstain/PickScore) | 62.9 | 79.8 | - |
+|  Single Human | 65.3 | 78.1 | 65.4* | 
+|  HPS v2 | 65.7 | 83.3 | 73.2* |
+
+\* The *new test set* is another test set annotated similarly to the HPD v2 test set, except that images are generated from 10 better models (Dreamlike Photoreal 2.0, SDXL Refiner 0.9, Realistic Vision, SDXL Base 0.9, Deliberate, ChilloutMix, MajicMix Realistic, Openjourney, DeepFloyd-XL, Epic Diffusion).
 
 HPS v2 checkpoint can be downloaded from [here](https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt). The model and live demo is also hosted on 🤗 Hugging Face at [here](https://huggingface.co/spaces/xswu/HPSv2).
 
