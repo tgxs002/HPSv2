@@ -138,8 +138,8 @@ def evaluate_benchmark(data_path, img_path, model, batch_size, preprocess_val, t
     print('-----------benchmark score ---------------- ')
     for model_id, data in score.items():
         for style , res in data.items():
-            avg_score = [np.mean(res[i:i+80]) for i in range(0, 800, 80)]
-            print(model_id, '{:<15}'.format(style), '{:.4f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
+            avg_score = [np.mean(res[i:i+80]) * 100 for i in range(0, 800, 80)]
+            print(model_id, '{:<15}'.format(style), '{:.2f}'.format(np.mean(avg_score) * 100), '\t', '{:.4f}'.format(np.std(avg_score)))
 
 def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_dir = data_path
@@ -172,8 +172,8 @@ def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_va
     print('-----------benchmark score ---------------- ')
     for model_id, data in score.items():
         for style , res in data.items():
-            avg_score = [np.mean(res[i:i+80]) for i in range(0, 800, 80)]
-            print(model_id, '{:<15}'.format(style), '{:.4f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
+            avg_score = [np.mean(res[i:i+80]) * 100 for i in range(0, 800, 80)]
+            print(model_id, '{:<15}'.format(style), '{:.2f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
 
 def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_file = data_path + '/drawbench.json'
@@ -203,7 +203,7 @@ def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val
     #     json.dump(score, f)
     print('-----------drawbench score ---------------- ')
     for model, data in score.items():
-        print(model, '\t', '\t', np.mean(data))
+        print(model, '\t', '\t', np.mean(data) * 100)
 
 model_dict = {}
 model_name = "ViT-H-14"
