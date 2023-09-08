@@ -257,9 +257,10 @@ def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'
     preprocess_val = model_dict['preprocess_val']
 
     print('Loading model ...')
-    checkpoint = torch.load(checkpoint_path)
+    checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint['state_dict'])
     tokenizer = get_tokenizer(model_name)
+    model = model.to(device)
     model.eval()
     print('Loading model successfully!')
     

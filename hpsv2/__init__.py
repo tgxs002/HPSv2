@@ -1,19 +1,16 @@
 import os
 import json
 from typing import Union
+from PIL import Image
 
 from . import utils
-from . import score as scr
-from . import evaluate as eval
 
 
 environ_root = os.environ.get('HPS_ROOT')
 root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else environ_root
 name = 'hpsv2'
 url = 'https://github.com/tgxs002/HPSv2'
-
-if not os.path.exists('datasets'):
-    os.mkdir('datasets')
+os.environ['NO_PROXY'] = 'huggingface.co'
 
 # Acquire available models
 available_models = utils.get_available_models()
@@ -54,6 +51,8 @@ def evaluate(imgs_path: str) -> None:
     """
     utils.download_benchmark_prompts()
     data_path = os.path.join(root_path, 'datasets/benchmark')
+    
+    from . import evaluation as eval
     eval.evaluate(mode="benchmark", data_path=data_path, root_dir=imgs_path)
 
 
@@ -80,18 +79,22 @@ def evaluate_benchmark(model_id: str) -> None:
     
     imgs_path = os.path.join(root_path, f'datasets/benchmark/benchmark_imgs/{model_id}')
     data_path = os.path.join(root_path, 'datasets/benchmark')
+    
+    from . import evaluation as eval
     eval.evaluate(mode="benchmark", data_path=data_path, root_dir=imgs_path)
 
-def score(imgs_path: list, prompt: str) -> float:
+def score(imgs_path: Union[list, str, Image.Image], prompt: str) -> list:
     """Score the image and prompt
 
     Args:
-        imgs_path (list): paths to generated images
+        imgs_path (Union[list, str, Image.Image]): paths to generated image(s)
         prompt (str): corresponding prompt
 
     Returns:
-        float: matching scores for images and prompt
+        list: matching scores for images and prompt
     """
+
+    from . import img_score as scr
     res = scr.score(imgs_path, prompt)
     return res
 
