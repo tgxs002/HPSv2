@@ -263,7 +263,7 @@ Run the following commands to score the single generated image and the correspon
 ```shell
 python img_score.py --image-path assets/demo_image.jpg --prompt 'A cat with two horns on its head'
 ```
-where the parameter `image` can accept multiple values.
+where the parameter `image-path` can accept multiple values.
 
 ## Train Human Preference Predictor
 To train your own human preference predictor, just change the corresponding path in `configs/controller.sh` and run the following command:
