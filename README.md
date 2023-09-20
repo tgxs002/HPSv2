@@ -123,12 +123,11 @@ all_prompts = hpsv2.benchmark_prompts('all')
 
 # Iterate over the benchmark prompts to generate images
 for style, prompts in all_prompts.items():
-    for prompt in prompts:
+    for idx, prompt in enumerate(prompts):
         image = TextToImageModel(prompt) 
         # TextToImageModel is the model you want to evaluate
-        image.save(os.path.join("<image_path>", style, "<image_name>")) 
+        image.save(os.path.join("<image_path>", style, f"{idx:05d}.jpg")) 
         # <image_path> is the folder path to store generated images, as the input of hpsv2.evaluate().
-        # <image_name> is of the form of '00xxx.jpg', with 'xxx' ranging from '000' to '799' corresponding to each prompt.
 
 ```
 
