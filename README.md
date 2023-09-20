@@ -230,7 +230,7 @@ The annotation file, `test.json`, is organized as:
         'prompt': str,
         'image_path': list[str],
         'rank': list[int], # averaged ranking result for image at the same index in image_path,
-        'raw_annotation': list[{'rank', 'user_hash'}]  # raw ranking result from each annotator
+        'raw_annotations': list[{'rank', 'user_hash'}]  # raw ranking result from each annotator
     },
     ...
 ]

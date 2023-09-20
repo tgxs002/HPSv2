@@ -18,7 +18,7 @@ URL = 'https://github.com/tgxs002/HPSv2'
 EMAIL = 'wangzhih02@gmail.com'
 AUTHOR = 'Zhiheng Wang et al.'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.2.0'
+VERSION = '1.1.1'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
