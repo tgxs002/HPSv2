@@ -27,20 +27,27 @@ class BenchmarkDataset(Dataset):
         self.tokenizer = tokenizer
         self.open_image = Image.open
         with open(meta_file, 'r') as f:
-            self.annotations = json.load(f)
+            prompts = json.load(f)
+        used_prompts = []
+        files = []
+        for idx, prompt in enumerate(prompts):
+            filename = os.path.join(self.image_folder, f'{idx:05d}.jpg')
+            if os.path.exists(filename):
+                used_prompts.append(prompt)
+                files.append(filename)
+            else:
+                print(f"missing image for prompt: {prompt}")
+        self.prompts = used_prompts
+        self.files = files
             
     def __len__(self):
-        return len(self.annotations)
+        return len(self.prompts)
     
     def __getitem__(self, idx):
-        try:
-            img_path = os.path.join(self.image_folder, f'{idx:05d}.jpg')
-            images = self.transforms(self.open_image(os.path.join(img_path)))
-            caption = self.tokenizer(self.annotations[idx])
-            return images, caption
-        except:
-            print('file not exist')
-            return self.__getitem__((idx + 1) % len(self))
+        img_path = self.files[idx]
+        images = self.transforms(self.open_image(img_path))
+        caption = self.tokenizer(self.prompts[idx])
+        return images, caption
 
 def evaluate_IR(data_path, image_folder, model, batch_size, preprocess_val, tokenizer, device):
     meta_file = data_path + '/ImageReward_test.json'
@@ -60,7 +67,7 @@ def evaluate_IR(data_path, image_folder, model, batch_size, preprocess_val, toke
             with torch.cuda.amp.autocast():
                 outputs = model(images, texts)
                 image_features, text_features, logit_scale = outputs["image_features"], outputs["text_features"], outputs["logit_scale"]
-                logits_per_image = logit_scale * image_features @ text_features.T
+                logits_per_image = logit_scale * image_features @ text_features.T * 100
                 paired_logits_list = [logit[:,i] for i, logit in enumerate(logits_per_image.split(num_images.tolist()))]
 
             predicted = [torch.argsort(-k) for k in paired_logits_list]
@@ -132,14 +139,14 @@ def evaluate_benchmark(data_path, img_path, model, batch_size, preprocess_val, t
                 with torch.cuda.amp.autocast():
                     outputs = model(images, texts)
                     image_features, text_features = outputs["image_features"], outputs["text_features"]
-                    logits_per_image = image_features @ text_features.T
+                    logits_per_image = image_features @ text_features.T * 100
                 # score[model_id][style][i] = torch.sum(torch.diagonal(logits_per_image)).cpu().item() / 80
                 score[model_id][style].extend(torch.diagonal(logits_per_image).cpu().tolist())
     print('-----------benchmark score ---------------- ')
     for model_id, data in score.items():
         for style , res in data.items():
-            avg_score = [np.mean(res[i:i+80]) * 100 for i in range(0, 800, 80)]
-            print(model_id, '{:<15}'.format(style), '{:.2f}'.format(np.mean(avg_score) * 100), '\t', '{:.4f}'.format(np.std(avg_score)))
+            avg_score = [np.mean(res[i:i+80]) for i in range(0, len(res), 80)]
+            print(model_id, '{:<15}'.format(style), '{:.2f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
 
 def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_dir = data_path
@@ -166,13 +173,13 @@ def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_va
                     with torch.cuda.amp.autocast():
                         outputs = model(images, texts)
                         image_features, text_features = outputs["image_features"], outputs["text_features"]
-                        logits_per_image = image_features @ text_features.T
+                        logits_per_image = image_features @ text_features.T * 100
                     # score[model_id][style][i] = torch.sum(torch.diagonal(logits_per_image)).cpu().item() / 80
                     score[model_id][style].extend(torch.diagonal(logits_per_image).cpu().tolist())
     print('-----------benchmark score ---------------- ')
     for model_id, data in score.items():
         for style , res in data.items():
-            avg_score = [np.mean(res[i:i+80]) * 100 for i in range(0, 800, 80)]
+            avg_score = [np.mean(res[i:i+80]) for i in range(0, len(res), 80)]
             print(model_id, '{:<15}'.format(style), '{:.2f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
 
 def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
@@ -195,7 +202,7 @@ def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val
                 with torch.cuda.amp.autocast():
                     outputs = model(images, texts)
                     image_features, text_features = outputs["image_features"], outputs["text_features"]
-                    logits_per_image = image_features @ text_features.T
+                    logits_per_image = image_features @ text_features.T * 100
                     diag = torch.diagonal(logits_per_image)
                 score[model_id] += torch.sum(diag).cpu().item()
             score[model_id] = score[model_id] / len(dataset)
@@ -203,7 +210,7 @@ def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val
     #     json.dump(score, f)
     print('-----------drawbench score ---------------- ')
     for model, data in score.items():
-        print(model, '\t', '\t', np.mean(data) * 100)
+        print(model, '\t', '\t', np.mean(data))
 
 model_dict = {}
 model_name = "ViT-H-14"
@@ -214,7 +221,7 @@ def initialize_model():
     if not model_dict:
         model, preprocess_train, preprocess_val = create_model_and_transforms(
             model_name,
-            'laion2B-s32B-b79K',
+            None,
             precision=precision,
             device=device,
             jit=False,
