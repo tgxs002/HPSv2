@@ -11,9 +11,7 @@ root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else en
 name = 'hpsv2'
 url = 'https://github.com/tgxs002/HPSv2'
 os.environ['NO_PROXY'] = 'huggingface.co'
-
-# Acquire available models
-available_models = utils.get_available_models()
+available_models = None
 
 # Model Abbreviations Dict
 model_ab_dict = {
@@ -63,6 +61,10 @@ def evaluate_benchmark(model_id: str) -> None:
         model_id (str): Name of example model (one of available_models)
     """
     utils.download_benchmark_prompts()
+
+    if available_models is None:
+        # Acquire available models
+        available_models = utils.get_available_models()
 
     if model_id in available_models:
         utils.download_benchmark_images(model_id)
