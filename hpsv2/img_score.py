@@ -7,11 +7,10 @@ import os
 import requests
 from clint.textui import progress
 from typing import Union
+import huggingface_hub
+from hpsv2.utils import root_path, hps_version_map
 
 warnings.filterwarnings("ignore", category=UserWarning)
-
-environ_root = os.environ.get('HPS_ROOT')
-root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else environ_root
 
 model_dict = {}
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -40,7 +39,7 @@ def initialize_model():
         model_dict['model'] = model
         model_dict['preprocess_val'] = preprocess_val
 
-def score(img_path: Union[list, str, Image.Image], prompt: str, cp: str = os.path.join(root_path, 'HPS_v2_compressed.pt')) -> list:
+def score(img_path: Union[list, str, Image.Image], prompt: str, cp: str = None, hps_version: str = "v2.0") -> list:
 
     initialize_model()
     model = model_dict['model']
@@ -49,17 +48,8 @@ def score(img_path: Union[list, str, Image.Image], prompt: str, cp: str = os.pat
     # check if the checkpoint exists
     if not os.path.exists(root_path):
         os.makedirs(root_path)
-    if cp == os.path.join(root_path, 'HPS_v2_compressed.pt') and not os.path.exists(cp):
-        print('Downloading HPS_v2_compressed.pt ...')
-        url = 'https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt'
-        r = requests.get(url, stream=True)
-        with open(os.path.join(root_path,'HPS_v2_compressed.pt'), 'wb') as HPSv2:
-            total_length = int(r.headers.get('content-length'))
-            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
-                if chunk:
-                    HPSv2.write(chunk)
-                    HPSv2.flush()
-        print('Download HPS_2_compressed.pt to {} sucessfully.'.format(root_path+'/'))
+    if cp is None:
+        cp = huggingface_hub.hf_hub_download("xswu/HPSv2", hps_version_map[hps_version])
     
     checkpoint = torch.load(cp, map_location=device)
     model.load_state_dict(checkpoint['state_dict'])

@@ -8,6 +8,7 @@ from PIL import Image
 from tqdm import tqdm
 import requests
 from clint.textui import progress
+import huggingface_hub
 
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -15,10 +16,8 @@ from torch.utils.data import Dataset, DataLoader
 from hpsv2.src.open_clip import create_model_and_transforms, get_tokenizer
 from hpsv2.src.training.train import calc_ImageReward, inversion_score
 from hpsv2.src.training.data import ImageRewardDataset, collate_rank, RankingDataset
+from hpsv2.utils import root_path, hps_version_map
 
-
-environ_root = os.environ.get('HPS_ROOT')
-root_path = os.path.expanduser('~/.cache/hpsv2') if environ_root == None else environ_root
 
 class BenchmarkDataset(Dataset):
     def __init__(self, meta_file, image_folder,transforms, tokenizer):
@@ -242,22 +241,14 @@ def initialize_model():
         model_dict['preprocess_val'] = preprocess_val
 
         
-def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'datasets/benchmark'), checkpoint_path: str = os.path.join(root_path, 'HPS_v2_compressed.pt'), batch_size: int = 20) -> None:
+def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'datasets/benchmark'), checkpoint_path: str = None, batch_size: int = 20, hps_version: str = "v2.0") -> None:
     
     # check if the default checkpoint exists
     if not os.path.exists(root_path):
         os.makedirs(root_path)
-    if checkpoint_path == os.path.join(root_path,'HPS_v2_compressed.pt') and not os.path.exists(checkpoint_path):
-        print('Downloading HPS_v2_compressed.pt ...')
-        url = 'https://huggingface.co/spaces/xswu/HPSv2/resolve/main/HPS_v2_compressed.pt'
-        r = requests.get(url, stream=True)
-        with open(os.path.join(root_path, 'HPS_v2_compressed.pt'), 'wb') as HPSv2:
-            total_length = int(r.headers.get('content-length'))
-            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
-                if chunk:
-                    HPSv2.write(chunk)
-                    HPSv2.flush()
-        print('Download HPS_v2_compressed.pt to {} sucessfully.'.format(root_path+'/'))
+    
+    if checkpoint_path is None:
+        checkpoint_path = huggingface_hub.hf_hub_download("xswu/HPSv2", hps_version_map[hps_version])
     
     initialize_model()
     model = model_dict['model']
