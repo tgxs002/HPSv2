@@ -68,7 +68,7 @@ pip install hpsv2
 # Method 2: install locally
 git clone https://github.com/tgxs002/HPSv2.git
 cd HPSv2
-python -m pip install . 
+pip install -e . 
 
 # Optional: images for reproducing our benchmark will be downloaded here
 # default: ~/.cache/hpsv2/
@@ -147,12 +147,13 @@ hpsv2.evaluate("<images_path>", hps_version="<hps_version>")
 Evaluating HPS v2's correlation with human preference choices:
 |  Model | Acc. on ImageReward test set (%)| Acc. on HPD v2 test set (%) | Acc. on new test set (%) |
 | :-----: | :-----: |:-----: |:-----: |
-|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 76.8 | - |
-|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 74.0 | - |
-|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 77.6 | - |
-|  [PickScore](https://github.com/yuvalkirstain/PickScore) | 62.9 | 79.8 | - |
+|  [Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) | 57.4 | 76.8 | 57.8 |
+|  [ImageReward](https://github.com/THUDM/ImageReward) | 65.1 | 74.0 | 67.4 |
+|  [HPS](https://github.com/tgxs002/align_sd) | 61.2 | 77.6 | 66.8 |
+|  [PickScore](https://github.com/yuvalkirstain/PickScore) | 62.9 | 79.8 | 67.8 |
 |  Single Human | 65.3 | 78.1 | 65.4* | 
 |  HPS v2 | 65.7 | 83.3 | 73.2* |
+|  HPS v2.1 | 66.8 | 84.1 | 74.8* |
 
 \* The *new test set* is another test set annotated similarly to the HPD v2 test set, except that images are generated from 10 better models (Dreamlike Photoreal 2.0, SDXL Refiner 0.9, Realistic Vision, SDXL Base 0.9, Deliberate, ChilloutMix, MajicMix Realistic, Openjourney, DeepFloyd-XL, Epic Diffusion).
 
