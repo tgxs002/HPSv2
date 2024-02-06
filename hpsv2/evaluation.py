@@ -143,9 +143,12 @@ def evaluate_benchmark(data_path, img_path, model, batch_size, preprocess_val, t
                 score[model_id][style].extend(torch.diagonal(logits_per_image).cpu().tolist())
     print('-----------benchmark score ---------------- ')
     for model_id, data in score.items():
+        all_score = []
         for style , res in data.items():
             avg_score = [np.mean(res[i:i+80]) for i in range(0, len(res), 80)]
+            all_score.extend(res)
             print(model_id, '{:<15}'.format(style), '{:.2f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
+        print(model_id, '{:<15}'.format('Average'), '{:.2f}'.format(np.mean(all_score)), '\t')
 
 def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_dir = data_path
@@ -177,10 +180,13 @@ def evaluate_benchmark_all(data_path, root_dir, model, batch_size, preprocess_va
                     score[model_id][style].extend(torch.diagonal(logits_per_image).cpu().tolist())
     print('-----------benchmark score ---------------- ')
     for model_id, data in score.items():
+        all_score = []
         for style , res in data.items():
             avg_score = [np.mean(res[i:i+80]) for i in range(0, len(res), 80)]
+            all_score.extend(res)
             print(model_id, '{:<15}'.format(style), '{:.2f}'.format(np.mean(avg_score)), '\t', '{:.4f}'.format(np.std(avg_score)))
-
+        print(model_id, '{:<15}'.format('Average'), '{:.2f}'.format(np.mean(all_score)), '\t')
+        
 def evaluate_benchmark_DB(data_path, root_dir, model, batch_size, preprocess_val, tokenizer, device):
     meta_file = data_path + '/drawbench.json'
     model_list = os.listdir(root_dir)

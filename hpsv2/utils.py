@@ -158,7 +158,8 @@ def download_benchmark_prompts() -> None:
     os.makedirs(folder_name, exist_ok=True)
     for file in hps_prompt_files:
         file_name = huggingface_hub.hf_hub_download("zhwang/HPDv2", file, subfolder="benchmark", repo_type="dataset")
-        os.symlink(file_name, os.path.join(folder_name, file))
+        if not os.path.exists(os.path.join(folder_name, file)):
+            os.symlink(file_name, os.path.join(folder_name, file))
     # huggingface_hub.hf_hub_download("zhwang/HPDv2", "concept-art.json", subfolder="benchmark", repo_type="dataset")
     # huggingface_hub.hf_hub_download("zhwang/HPDv2", "paintings.json", subfolder="benchmark", repo_type="dataset")
     # huggingface_hub.hf_hub_download("zhwang/HPDv2", "photo.json", subfolder="benchmark", repo_type="dataset")
