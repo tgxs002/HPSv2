@@ -16,6 +16,8 @@ hps_version_map = {
     "v2.1": "HPS_v2.1_compressed.pt",
 }
 
+hps_prompt_files = ['anime.json', 'concept-art.json', 'paintings.json', 'photo.json']
+
 # Model Abbreviations Dict
 model_ab_dict = {
         'CM': 'ChilloutMix',
@@ -152,10 +154,14 @@ def load_models(model_path: str, model_url: str = None, command_path: str = None
 
 def download_benchmark_prompts() -> None:
     
-    huggingface_hub.hf_hub_download("zhwang/HPDv2", "anime.json", subfolder="benchmark", repo_type="dataset")
-    huggingface_hub.hf_hub_download("zhwang/HPDv2", "concept-art.json", subfolder="benchmark", repo_type="dataset")
-    huggingface_hub.hf_hub_download("zhwang/HPDv2", "paintings.json", subfolder="benchmark", repo_type="dataset")
-    huggingface_hub.hf_hub_download("zhwang/HPDv2", "photo.json", subfolder="benchmark", repo_type="dataset")
+    folder_name = os.path.join(root_path, 'datasets/benchmark')
+    os.makedirs(folder_name, exist_ok=True)
+    for file in hps_prompt_files:
+        file_name = huggingface_hub.hf_hub_download("zhwang/HPDv2", file, subfolder="benchmark", repo_type="dataset")
+        os.symlink(file_name, os.path.join(folder_name, file))
+    # huggingface_hub.hf_hub_download("zhwang/HPDv2", "concept-art.json", subfolder="benchmark", repo_type="dataset")
+    # huggingface_hub.hf_hub_download("zhwang/HPDv2", "paintings.json", subfolder="benchmark", repo_type="dataset")
+    # huggingface_hub.hf_hub_download("zhwang/HPDv2", "photo.json", subfolder="benchmark", repo_type="dataset")
 
 
 def download_benchmark_images(model_id: str) -> None:
@@ -168,10 +174,11 @@ def download_benchmark_images(model_id: str) -> None:
             return
     
     file_name = huggingface_hub.hf_hub_download("zhwang/HPDv2", model_id + '.tar.gz', subfolder="benchmark/benchmark_imgs", repo_type="dataset")
+    print(file_name)
     folder_name = os.path.join(root_path, 'datasets/benchmark/benchmark_imgs/'+model_id)
     
     if not os.path.exists(folder_name):
-        with tarfile.open(file_name, 'r:gz') as tar:
+        with tarfile.open(file_name, 'r:*') as tar:
             tar.extractall(path=os.path.join(root_path, 'datasets/benchmark/benchmark_imgs/'))
         print('Extract /'+model_id+' successfully!')
         
