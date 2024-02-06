@@ -247,7 +247,7 @@ def initialize_model():
         model_dict['preprocess_val'] = preprocess_val
 
         
-def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'datasets/benchmark'), checkpoint_path: str = None, batch_size: int = 20, hps_version: str = "v2.0") -> None:
+def evaluate(mode: str, root_dir: str, data_path: str = os.path.join(root_path,'datasets/benchmark'), checkpoint_path: str = None, batch_size: int = 20, hps_version: str = "v2.1") -> None:
     
     # check if the default checkpoint exists
     if not os.path.exists(root_path):
