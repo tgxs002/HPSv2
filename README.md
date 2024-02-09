@@ -27,10 +27,40 @@ This is the official repository for the paper: [Human Preference Score v2: A Sol
 
 **Human Preference Score v2 (HPS v2)**: a preference prediction model trained on HPD v2. HPS v2 can be used to compare images generated with the same prompt. We also provide a fair, stable, and easy-to-use set of evaluation prompts for text-to-image generative models.
 
-## The HPS v2 benchmark
-The HPS v2 benchmark evaluates models' capability of generating images of 4 styles: *Animation*, *Concept-art*, *Painting*, and *Photo*. 
+## The HPS benchmark
+The HPS benchmark evaluates models' capability of generating images of 4 styles: *Animation*, *Concept-art*, *Painting*, and *Photo*. 
 
-**The benchmark is actively updating, email us @ tgxs002@gmail.com or raise an issue if you feel your model/method needs to be included in this benchmark!**
+<details close>
+<summary> v2 benchmark </summary>
+
+| Model                 | Animation | Concept-art | Painting | Photo    | Averaged |
+| ---------------------| --------- | ----------- | -------- | -------- | -------- |
+| Dreamlike Photoreal 2.0 | 28.24  | 27.60      | 27.59   | 27.99   | 27.86 |
+| SDXL Refiner 0.9      | 28.45    | 27.66      | 27.67   | 27.46   | 27.80 |
+| Realistic Vision      | 28.22    | 27.53      | 27.56   | 27.75   | 27.77 |
+| SDXL Base 0.9         | 28.42    | 27.63      | 27.60   | 27.29   | 27.73 |
+| Deliberate            | 28.13     | 27.46      | 27.45   | 27.62   | 27.67 |
+| ChilloutMix           | 27.92    | 27.29      | 27.32   | 27.61   | 27.54 |
+| MajicMix Realistic    | 27.88    | 27.19      | 27.22   | 27.64   | 27.48 |
+| Openjourney           | 27.85    | 27.18      | 27.25   | 27.53   | 27.45 |
+| DeepFloyd-XL          | 27.64    | 26.83      | 26.86   | 27.75   | 27.27 |
+| Epic Diffusion        | 27.57    | 26.96      | 27.03   | 27.49   | 27.26 |
+| Stable Diffusion v2.0 | 27.48    | 26.89      | 26.86   | 27.46   | 27.17 |
+| Stable Diffusion v1.4 | 27.26    | 26.61      | 26.66   | 27.27   | 26.95 |
+| DALL·E 2              | 27.34    | 26.54      | 26.68   | 27.24   | 26.95 |
+| Versatile Diffusion   | 26.59    | 26.28      | 26.43   | 27.05   | 26.59 |
+| CogView2              | 26.50    | 26.59      | 26.33   | 26.44   | 26.47 |
+| VQGAN + CLIP          | 26.44    | 26.53      | 26.47   | 26.12   | 26.39 |
+| DALL·E mini           | 26.10    | 25.56      | 25.56   | 26.12   | 25.83 |
+| Latent Diffusion      | 25.73    | 25.15      | 25.25   | 26.97   | 25.78 |
+| FuseDream             | 25.26    | 25.15      | 25.13   | 25.57   | 25.28 |
+| VQ-Diffusion          | 24.97    | 24.70      | 25.01   | 25.71   | 25.10 |
+| LAFITE                | 24.63    | 24.38      | 24.43   | 25.81   | 24.81 |
+| GLIDE                 | 23.34    | 23.08      | 23.27   | 24.50   | 23.55 |
+</details>
+
+<details close>
+<summary> v2.1 benchmark </summary>
 
 | Model                 | Animation | Concept-art | Painting | Photo    | Averaged |
 | ---------------------| --------- | ----------- | -------- | -------- | -------- |
@@ -56,6 +86,7 @@ The HPS v2 benchmark evaluates models' capability of generating images of 4 styl
 | VQ-Diffusion          | 18.44    | 18.31      | 19.24   | 20.62   | 19.15 |
 | LAFITE                | 17.79    | 17.55      | 17.61   | 20.88   | 18.46 |
 | GLIDE                 | 13.90    | 13.50      | 13.94   | 16.72   | 14.51 |
+</details>
 
 ## Quick Start
 
