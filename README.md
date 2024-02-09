@@ -11,7 +11,7 @@
 This is the official repository for the paper: [Human Preference Score v2: A Solid Benchmark for Evaluating Human Preferences of Text-to-Image Synthesis](https://arxiv.org/abs/2306.09341). 
 
 ## Updates
-*  [09/02/2024] We released HPS v2.1 model trained on higher quality datasets. Happy new year!
+*  [09/02/2024] We released HPS v2.1 model trained on higher quality datasets, and the training set of HPD v2.0. Happy new year!
 *  [08/02/2023] We released the [PyPI package](https://pypi.org/project/hpsv2/). You can learn how to use it from the [Quick start section](#quick-start).
 *  [08/02/2023] Updated [test.json](https://huggingface.co/datasets/zhwang/HPDv2/blob/main/test.json) to include raw annotation by each annotator.
 *  [07/29/2023] We included `SDXL Refiner 0.9` model in the benchmark.
@@ -220,7 +220,7 @@ Image sources of HPD v2:
 Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2). You can inspect the test data at [https://tgxs002.github.io/hpd_test_vis/](https://tgxs002.github.io/hpd_test_vis/). Here is a screenshot:
 ![test_vis](https://github.com/tgxs002/HPSv2/blob/master/hpsv2/assets/test_vis.png)
 
-The training dataset will be **released soon**.
+The training data can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/Ef3pKO44QLhDuMjp9ZB0dc0BF7P0vn8G5tuuKtxPe0zqnQ?e=yaJani).
 Once unzipped, you should get a folder with the following structure:
 ```
 HPD
@@ -251,7 +251,6 @@ The annotation file, `train.json`, is organized as:
         'human_preference': list[int], # 1 for preference
         'prompt': str,
         'file_path': list[str],
-        'user_hash': str,
     },
     ...
 ]
