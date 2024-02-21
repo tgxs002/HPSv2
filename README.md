@@ -217,10 +217,19 @@ Image sources of HPD v2:
 | FuseDream | 400 |
 | COCO Captions | 28272 |
 
-Currently, the test data can be downloaded from [here](https://huggingface.co/datasets/zhwang/HPDv2). You can inspect the test data at [https://tgxs002.github.io/hpd_test_vis/](https://tgxs002.github.io/hpd_test_vis/). Here is a screenshot:
+
+### Download
+The training and test data is fully released now and can be downloaded from [here](https://huggingface.co/datasets/ymhao/HPDv2).
+You can inspect the test data at [https://tgxs002.github.io/hpd_test_vis/](https://tgxs002.github.io/hpd_test_vis/). Here is a screenshot:
 ![test_vis](https://github.com/tgxs002/HPSv2/blob/master/hpsv2/assets/test_vis.png)
 
-The training data can be downloaded from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155172150_link_cuhk_edu_hk/Ef3pKO44QLhDuMjp9ZB0dc0BF7P0vn8G5tuuKtxPe0zqnQ?e=yaJani).
+You could downloaded and unzip manually or use HPDv2 directly run the following code:
+```python
+from datasets import load_dataset
+dataset = load_dataset("HPDv2.py")
+```
+
+### Data Structure
 Once unzipped, you should get a folder with the following structure:
 ```
 HPD
@@ -243,6 +252,7 @@ HPD
 -------- photo.json
 -------- drawbench.json
 ```
+
 
 The annotation file, `train.json`, is organized as:
 ```
